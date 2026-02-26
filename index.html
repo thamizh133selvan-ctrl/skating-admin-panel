@@ -783,14 +783,48 @@
       <div class="form-section-title">Registration Fee</div>
       <div class="fee-badge">Registration Fee: ₹800 /-</div>
       <style>
+/* Pay Now Button - Theme Match */
 .pay-btn {
-    background-color: #00d5ffe3;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
+  background: linear-gradient(135deg, var(--gold), #ff8c00);
+  color: #050a1a;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.pay-btn:hover {
+  box-shadow: 0 0 20px rgba(255,215,0,0.6);
+  transform: translateY(-2px);
+}
+/* Custom File Upload Button */
+input[type="file"] {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--white);
+}
+
+/* Style the "Choose File" button */
+input[type="file"]::file-selector-button {
+  background: linear-gradient(135deg, var(--gold), #ff8c00);
+  color: #050a1a;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Hover effect */
+input[type="file"]::file-selector-button:hover {
+  box-shadow: 0 0 15px rgba(255,215,0,0.6);
 }
 </style>
 
