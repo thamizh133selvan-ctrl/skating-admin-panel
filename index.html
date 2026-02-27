@@ -563,6 +563,7 @@
     const schoolName = document.getElementById('schoolName').value.trim();
     const address = document.getElementById('address').value.trim();
     const primaryPhone = document.getElementById('primaryPhone').value.trim();
+    const transactionId = document.getElementById("transactionId").value.trim();
 
     const disciplines = [];
     document.querySelectorAll('input[name="discipline"]:checked')
@@ -579,6 +580,20 @@
     }
 
     try {
+const aadharFile = document.getElementById("aadharFile").files[0];
+const birthFile = document.getElementById("birthFile").files[0];
+const paymentFile = document.getElementById("paymentProof").files[0];
+
+const toBase64 = file => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = error => reject(error);
+});
+
+const aadharBase64 = await toBase64(aadharFile);
+const birthBase64 = await toBase64(birthFile);
+const paymentBase64 = await toBase64(paymentFile);
       await addDoc(collection(db, "registrations"), {
         name,
         gender,
@@ -588,6 +603,10 @@
         address,
         primaryPhone,
         disciplines,
+        transactionId,
+        aadharFile: aadharBase64,
+  birthFile: birthBase64,
+  paymentFile: paymentBase64,
         createdAt: new Date()
       });
 
@@ -846,6 +865,12 @@ input[type="file"]::file-selector-button:hover {
 
 <label>Upload Payment Screenshot:</label>
 <input type="file" id="paymentProof" accept="image/*" required>
+<label>Upload Aadhar Proof:</label>
+<input type="file" id="aadharFile" accept="image/*,application/pdf" required>
+
+<label>Upload Birth Certificate:</label>
+<input type="file" id="birthFile" accept="image/*,application/pdf" required>
+
 
       <button class="submit-btn" onclick="submitForm()">⛸ SUBMIT REGISTRATION ⛸</button>
 

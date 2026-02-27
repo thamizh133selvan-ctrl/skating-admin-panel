@@ -6,7 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
   <style>
-    body {
+   body {
       font-family: Arial;
       background: #050a1a;
       color: white;
@@ -34,6 +34,7 @@
       border: none;
       background: gold;
       font-weight: bold;
+      
     }
 
     .category {
@@ -42,14 +43,21 @@
       background: #0a1535;
       border-radius: 10px;
       border: 1px solid gold;
+      overflow:auto;
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid gold;
+  padding: 8px;
+  text-align: center;
+  word-break: break-word;
+}
 
     th, td {
       border: 1px solid gold;
@@ -197,6 +205,12 @@ async function loadData() {
 
   displayGrouped(grouped);
 }
+function downloadFile(base64, filename) {
+  const link = document.createElement("a");
+  link.href = base64;
+  link.download = filename;
+  link.click();
+}
 
 
 function createTable(students) {
@@ -214,7 +228,10 @@ function createTable(students) {
         <th>School</th>
         <th>Phone</th>
         <th>Disciplines</th>
-        <th>Action</th>
+        <th>Aadhar Proof</th>
+        <th>Birth Certificate</th>
+        <th>Payment Screenshot</th>
+        <th>Action<th>
       </tr>
   `;
 
@@ -228,11 +245,30 @@ function createTable(students) {
         <td>${student.schoolName}</td>
         <td>${student.primaryPhone}</td>
         <td>${student.disciplines?.join(", ") || "N/A"}</td>
-        <td>
-          <button onclick="deleteStudent('${student.id}')">Delete</button>
-        </td>
-      </tr>
-    `;
+<td>
+  <button onclick="downloadFile('${student.aadharFile}', 'Aadhar')">
+    Download
+  </button>
+</td>
+
+<td>
+  <button onclick="downloadFile('${student.birthFile}', 'Birth')">
+    Download
+  </button>
+</td>
+
+<td>
+  <button onclick="downloadFile('${student.paymentFile}', 'Payment')">
+    Download
+  </button>
+</td>
+
+<td>
+  <button onclick="deleteStudent('${student.id}')">
+    Delete
+  </button>
+</td>
+</tr>`;
   });
 
   table += "</table>";
@@ -265,6 +301,17 @@ function displayGrouped(grouped) {
     container.appendChild(rinkDiv);
   }
 }
+window.downloadFile = function(base64, filename) {
+  if (!base64) {
+    alert("File not available");
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.href = base64;
+  link.download = filename;
+  link.click();
+};
 
 
 window.deleteStudent = async function(id) {
